@@ -14,18 +14,14 @@ fn get_input_to_vec_uint() -> Vec<u32> {
         .collect();
     vec
 }
-fn arthprog(vectorum: &mut Vec<u32>, a: u32, b: u32, direction: i32, n: u32) {
-    let mut iteratorum = 1;
-    loop {
-        let mortituro = a as i32 + (direction * b as i32 * iteratorum) - 1;
-        if mortituro >= 0 && mortituro < n as i32 {
-            vectorum[mortituro as usize] += 1;
-            iteratorum += 1;
-        } else {
-            break;
-        }
+fn arthprog(vectorum: &mut Vec<u32>, a: u32, b: u32, direction: i32, n: u32, current: i32) {
+    let mortituro = a as i32 + (direction * b as i32 * current) - 1;
+    if mortituro >= 0 && mortituro < n as i32 {
+        vectorum[mortituro as usize] += 1;
+        arthprog(vectorum, a, b, direction, n, current + 1);
     }
 }
+
 fn main() {
     let tests = get_input().trim().parse::<u32>().unwrap();
     for t in 0..tests {
@@ -39,9 +35,8 @@ fn main() {
             let a = query_params[0];
             let b = query_params[1];
             if a as usize <= n as usize && a >= 1 && b >= 1 && b as usize <= n as usize {
-                vectorum[(a - 1) as usize] += 1;
-                arthprog(&mut vectorum, a, b, -1, n);
-                arthprog(&mut vectorum, a, b, 1, n);
+                arthprog(&mut vectorum, a, b, -1, n, 0);
+                arthprog(&mut vectorum, a, b, 1, n, 1);
             }
         }
         print!("Case {}:", t + 1);
