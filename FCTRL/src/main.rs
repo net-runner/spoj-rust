@@ -1,3 +1,4 @@
+//AKA find factorial trailing zeros
 use std::io;
 fn get_input() -> String {
     let mut buffer = String::new();
